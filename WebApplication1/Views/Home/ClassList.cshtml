@@ -1,0 +1,44 @@
+﻿@model IEnumerable<WebApplication1.Class>
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ClassList</title>
+</head>
+<body>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(minicstructorContext => minicstructorContext.ClassName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(minicstructorContext => minicstructorContext.ClassDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(minicstructorContext => minicstructorContext.ClassPrice)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in DatabaseAccessor.instance.Class) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassPrice)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</body>
+</html>
