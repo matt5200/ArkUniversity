@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace WebApplication1.Controllers
 {
@@ -18,13 +20,23 @@ namespace WebApplication1.Controllers
 
         private readonly IUserManager userManager;
 
-        //public HomeController( IUserManager userManager)
-        //{
-        //   this.userManager = userManager;
-        //}
+
+        public HomeController(IUserManager userManager)
+        {
+            this.userManager = userManager;
+        }
+
 
         public IActionResult Index()
         {
+            return View();
+        }
+
+        [Authorize]
+        public ActionResult YourClasses ()
+        {
+            var user = JsonConvert.DeserializeObject<Models.UserModel>(HttpContext.Session.GetString("User"));
+
             return View();
         }
 
@@ -57,14 +69,14 @@ namespace WebApplication1.Controllers
         }
 
 
-        public ActionResult LogIn()
+        public ActionResult Login()
         {
             ViewData["ReturnUrl"] = Request.Query["returnUrl"];
             return View();
         }
 
         [HttpPost]
-        public ActionResult LogIn(Login loginModel, string returnUrl)
+        public ActionResult Login(Login loginModel, string returnUrl)
         {
             if (ModelState.IsValid)
             {

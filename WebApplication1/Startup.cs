@@ -28,6 +28,7 @@ namespace WebApplication1
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IUserRepository, UserRepository>();
+            services.AddSingleton<IUserManager, UserManager>();
 
             services.Configure<CookiePolicyOptions>(options =>
             {
