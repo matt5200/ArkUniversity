@@ -154,5 +154,26 @@ namespace WebApplication1.Controllers
             return Redirect("~/");
         }
 
+        [HttpPost]
+        public ActionResult Register(RegisterModel registerModel)
+        {
+            if (ModelState.IsValid)
+            {
+                userManager.Register(registerModel.UserName, registerModel.Password);
+
+                return Redirect("~/");
+            }
+            else
+            {
+                return View();
+            }
+        }
+
+        [HttpGet]
+        public ActionResult Register()
+        {
+            return View();
+        }
+
     }
 }
