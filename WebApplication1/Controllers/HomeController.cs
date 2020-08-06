@@ -39,8 +39,17 @@ namespace WebApplication1.Controllers
         public ActionResult YourClasses ()
         {
             var user = JsonConvert.DeserializeObject<Models.UserModel>(HttpContext.Session.GetString("User"));
+            var items = DatabaseAccessor.instance.
+                .Where(t => t.UserId == 1).Select(a => new Models.Class
+                {
+                    ClassId = a.ClassID,
+                    ClassDescription = a.ClassDescription,
+                    ClassName = a.ClassName,
+                    ClassPrice = a.ClassPrice
+                }
+                    ).ToArray();
 
-            return View();
+            return View(items);
         }
 
         public IActionResult About()
