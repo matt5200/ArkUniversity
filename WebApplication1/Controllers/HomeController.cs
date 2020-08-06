@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
-
+using Microsoft.Extensions.Options;
 
 namespace WebApplication1.Controllers
 {
@@ -19,11 +19,14 @@ namespace WebApplication1.Controllers
     {
 
         private readonly IUserManager userManager;
+        private readonly CookieAuthenticationOptions _cookieAuthenticationOptions;
 
 
-        public HomeController(IUserManager userManager)
+        public HomeController(IUserManager userManager, IOptionsMonitor<CookieAuthenticationOptions> cookieAuthenticationOptions)
         {
             this.userManager = userManager;
+            _cookieAuthenticationOptions = cookieAuthenticationOptions.Get(CookieAuthenticationDefaults.AuthenticationScheme);
+            var loginPath = _cookieAuthenticationOptions.LoginPath;
         }
 
 

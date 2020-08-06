@@ -12,6 +12,7 @@ namespace WebApplication1.Models
         public int Id { get; set; }
 
         [Required]
+        [EmailAddress]
         [Display(Name = "User name")]
         public string UserName { get; set; }
 

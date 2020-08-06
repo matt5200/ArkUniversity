@@ -12,6 +12,9 @@ using Microsoft.EntityFrameworkCore;
 using WebApplication1.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
+
 
 namespace WebApplication1
 {
@@ -37,12 +40,21 @@ namespace WebApplication1
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+          
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddSession();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+            {
+                options.LoginPath = new PathString("/Home/Login");
+                options.AccessDeniedPath = new PathString("/Account/Denied");
+            });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -67,6 +79,7 @@ namespace WebApplication1
             app.UseCookiePolicy();
 
             app.UseAuthentication();
+
 
             app.UseMvc(routes =>
             {
