@@ -43,6 +43,8 @@ namespace WebApplication1.Controllers
                 var classList = dbInstance.UserClass.Where(t => t.UserId == user.Id).Where(t => t.ClassId == classId).ToList();
                 if (classList.Count() == 0)
                 {
+                    dbInstance.UserClass.Add(new UserClass { ClassId=classId, UserId=user.Id });
+                    dbInstance.SaveChanges();
                     return View("ThankYou");
                 }
                 else
