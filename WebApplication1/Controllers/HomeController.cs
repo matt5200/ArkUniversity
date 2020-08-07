@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Db;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace WebApplication1.Controllers
 {
@@ -31,6 +32,7 @@ namespace WebApplication1.Controllers
             var loginPath = _cookieAuthenticationOptions.LoginPath;
         }
 
+        
         [Authorize]
         public IActionResult Enroll(int classId)
         {
@@ -45,7 +47,8 @@ namespace WebApplication1.Controllers
                 }
                 else
                 {
-                    return View("Enrollment succesfull");
+                    ViewBag.ErrorMessage = "Your already enrolled in that course, please select another.";
+                    return View();
                 }
             }
             return View();
