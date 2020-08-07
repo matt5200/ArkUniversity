@@ -13,6 +13,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
+using WebApplication1.Db;
 
 namespace WebApplication1.Controllers
 {
@@ -31,8 +32,22 @@ namespace WebApplication1.Controllers
         }
 
         [Authorize]
-        public IActionResult Enroll()
+        public IActionResult Enroll(int classId)
         {
+            if (classId != 0)
+            {
+                var user = JsonConvert.DeserializeObject<Models.UserModel>(HttpContext.Session.GetString("User"));
+                var dbInstance = DatabaseAccessor.instance;
+                var classList = dbInstance.UserClass.Where(t => t.UserId == user.Id).Where(t => t.ClassId == classId).ToList();
+                if (classList.Count() == 0)
+                {
+                    return View("ThankYou");
+                }
+                else
+                {
+                    return View("Enrollment succesfull");
+                }
+            }
             return View();
         }
 

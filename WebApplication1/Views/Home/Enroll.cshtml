@@ -22,21 +22,22 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in DatabaseAccessor.instance.Class) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClassName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClassDescription)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClassPrice)
-            </td>
-            <td>
-                <a asp-action="Enroll" asp-route-id="@item.ClassId">Enroll</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in DatabaseAccessor.instance.Class)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClassName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClassDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClassPrice)
+                </td>
+                <td>
+                    @Html.ActionLink("Enroll", "Enroll", new { classId = item.ClassId })
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
