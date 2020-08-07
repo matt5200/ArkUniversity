@@ -178,7 +178,7 @@ namespace WebApplication1.Controllers
             return View(loginModel);
         }
 
-        public ActionResult LogOff()
+        public ActionResult Logout()
         {
             HttpContext.Session.Remove("User");
 
