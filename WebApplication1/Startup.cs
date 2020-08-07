@@ -80,7 +80,6 @@ namespace WebApplication1
 
             app.UseAuthentication();
 
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

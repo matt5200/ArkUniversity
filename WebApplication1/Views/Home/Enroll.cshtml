@@ -1,31 +1,28 @@
-﻿@model IEnumerable<WebApplication1.Class>
+﻿@model IEnumerable<WebApplication1.Db.Class>
 
-<!DOCTYPE html>
+@{
+    ViewData["Title"] = "Enroll";
+}
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Your Classes</title>
-</head>
-<body>
+<h2>Enroll</h2>
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ClassName)
+                @Html.DisplayNameFor(minicstructorContext => minicstructorContext.ClassName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ClassDescription)
+                @Html.DisplayNameFor(minicstructorContext => minicstructorContext.ClassDescription)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ClassPrice)
+                @Html.DisplayNameFor(minicstructorContext => minicstructorContext.ClassPrice)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in DatabaseAccessor.instance.Class) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.ClassName)
@@ -36,9 +33,10 @@
             <td>
                 @Html.DisplayFor(modelItem => item.ClassPrice)
             </td>
+            <td>
+                <a asp-action="Enroll" asp-route-id="@item.ClassId">Enroll</a>
+            </td>
         </tr>
 }
     </tbody>
 </table>
-</body>
-</html>

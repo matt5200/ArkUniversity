@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebApplication1.Controllers
 {
@@ -29,6 +30,12 @@ namespace WebApplication1.Controllers
             var loginPath = _cookieAuthenticationOptions.LoginPath;
         }
 
+        [Authorize]
+        public IActionResult Enroll()
+        {
+            return View();
+        }
+
 
         public IActionResult Index()
         {
@@ -39,17 +46,15 @@ namespace WebApplication1.Controllers
         public ActionResult YourClasses ()
         {
             var user = JsonConvert.DeserializeObject<Models.UserModel>(HttpContext.Session.GetString("User"));
-            var items = DatabaseAccessor.instance.
-                .Where(t => t.UserId == 1).Select(a => new Models.Class
-                {
-                    ClassId = a.ClassID,
-                    ClassDescription = a.ClassDescription,
-                    ClassName = a.ClassName,
-                    ClassPrice = a.ClassPrice
-                }
-                    ).ToArray();
 
-            return View(items);
+
+            var dbInstance = DatabaseAccessor.instance;
+            
+            var classList = dbInstance.UserClass.Where(t => t.UserId == user.Id).ToList();
+
+            var classes = dbInstance.Class.Where(t => classList.Find(c => c.ClassId == t.ClassId) != null);
+
+            return View(classes);
         }
 
         public IActionResult About()
